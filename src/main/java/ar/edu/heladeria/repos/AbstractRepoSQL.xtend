@@ -11,7 +11,7 @@ import javax.persistence.criteria.Root
 
 abstract class AbstractRepoSQL<T> {
 
-	static final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("Viotti")
+	static final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("Heladeria")
 	protected static EntityManager entityManager = entityManagerFactory.createEntityManager
 
 	def List<T> allInstances() {
