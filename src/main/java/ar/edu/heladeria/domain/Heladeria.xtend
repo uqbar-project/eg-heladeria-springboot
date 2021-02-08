@@ -14,9 +14,7 @@ import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import org.eclipse.xtend.lib.annotations.Accessors
-import org.uqbar.commons.model.annotations.Dependencies
 import org.uqbar.commons.model.exceptions.UserException
-import org.uqbar.commons.model.utils.ObservableUtils
 
 @Accessors
 @Entity
@@ -32,7 +30,7 @@ class Heladeria {
 	@Enumerated(EnumType.ORDINAL) // o EnumType.STRING
 	TipoHeladeria tipoHeladeria
 
-	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	Duenio duenio
 
 	@ElementCollection
@@ -66,19 +64,14 @@ class Heladeria {
 
 	def agregarGusto(String gusto, int cantidad) {
 		gustos.put(gusto, cantidad)
-		ObservableUtils.firePropertyChanged(this, "gustos", gustos)
-		ObservableUtils.firePropertyChanged(this, "gustosQueOfrece", gustosQueOfrece)
 	}
 
-	@Dependencies("gustos")	
 	def gustosQueOfrece() {
 		gustos.keySet.map [ gusto | gusto + " -> " + gustos.get(gusto) ].toList
 	}
 	
 	def eliminarGusto(String gusto) {
 		gustos.remove(gusto)
-		ObservableUtils.firePropertyChanged(this, "gustos", gustos)
-		ObservableUtils.firePropertyChanged(this, "gustosQueOfrece", gustosQueOfrece)
 	}
 
 }
