@@ -1,4 +1,4 @@
-package ar.edu.heladeria.application
+package ar.edu.heladeria
 
 import org.springframework.boot.builder.SpringApplicationBuilder
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer

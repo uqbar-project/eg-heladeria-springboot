@@ -1,4 +1,4 @@
-package ar.edu.heladeria.application
+package ar.edu.heladeria
 
 import ar.edu.heladeria.domain.Duenio
 import ar.edu.heladeria.domain.Heladeria
