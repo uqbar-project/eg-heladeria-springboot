@@ -4,12 +4,18 @@ import ar.edu.heladeria.domain.Duenio
 import ar.edu.heladeria.domain.Heladeria
 import ar.edu.heladeria.domain.TipoHeladeria
 import ar.edu.heladeria.repos.RepoHeladeria
+import org.springframework.beans.factory.InitializingBean
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Service
 
-class HeladeriaBootstrap {
+@Service
+class HeladeriaBootstrap implements InitializingBean {
 
 	Heladeria tucan
 	Heladeria monteOlivia
 	Heladeria frigor
+	@Autowired
+	RepoHeladeria repoHeladeria
 
 	def void initHeladerias() {
 		tucan = new Heladeria => [
@@ -46,12 +52,12 @@ class HeladeriaBootstrap {
 	}
 
 	def void crearOActualizarHeladeria(Heladeria heladeria) {
-		val repoHeladeria = RepoHeladeria.instance
-		val listaHeladerias = repoHeladeria.searchByExample(heladeria)
-		if (listaHeladerias.isEmpty) {
-			repoHeladeria.createOrUpdate(heladeria)
+			repoHeladeria.save(heladeria)
 			println("Heladería " + heladeria.nombre + " creada")
-		}
+	}
+	
+	override afterPropertiesSet() throws Exception {
+		initHeladerias
 	}
 
 }

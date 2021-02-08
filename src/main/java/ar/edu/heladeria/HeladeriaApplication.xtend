@@ -6,8 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 @SpringBootApplication
 class HeladeriaApplication {
 	def static void main(String[] args) {
-		val bootstrap = new HeladeriaBootstrap
-		bootstrap.initHeladerias()
 		SpringApplication.run(HeladeriaApplication, args)
 	}
 }
