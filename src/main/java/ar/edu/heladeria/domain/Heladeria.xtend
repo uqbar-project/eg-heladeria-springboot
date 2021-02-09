@@ -30,22 +30,19 @@ class Heladeria {
 	@Enumerated(EnumType.ORDINAL) // o EnumType.STRING
 	TipoHeladeria tipoHeladeria
 
-	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	Duenio duenio
 
 	@ElementCollection
-	@CollectionTable(
-		name="Heladeria_Gustos", 
-		joinColumns=@JoinColumn(name="heladeria_id")
-	)
+	@CollectionTable(name="Heladeria_Gustos", joinColumns=@JoinColumn(name="heladeria_id"))
 	@Column(name="gustos")
 	Map<String, Integer> gustos
-		// el mapa se compone de gusto, dificultad
 
+	// el mapa se compone de gusto, dificultad
 	new() {
 		gustos = newHashMap
 	}
-	
+
 	def void validar() {
 		if (nombre === null || nombre.trim.equals("")) {
 			throw new UserException("Debe cargar el nombre")
@@ -67,9 +64,9 @@ class Heladeria {
 	}
 
 	def gustosQueOfrece() {
-		gustos.keySet.map [ gusto | gusto + " -> " + gustos.get(gusto) ].toList
+		gustos.keySet.map[gusto|gusto + " -> " + gustos.get(gusto)].toList
 	}
-	
+
 	def eliminarGusto(String gusto) {
 		gustos.remove(gusto)
 	}

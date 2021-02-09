@@ -52,12 +52,14 @@ class HeladeriaBootstrap implements InitializingBean {
 	}
 
 	def void crearOActualizarHeladeria(Heladeria heladeria) {
-			repoHeladeria.save(heladeria)
-			println("Heladería " + heladeria.nombre + " creada")
+		repoHeladeria.save(heladeria)
+		println("Heladería " + heladeria.nombre + " creada")
 	}
-	
+
 	override afterPropertiesSet() throws Exception {
-		initHeladerias
+		if (repoHeladeria.count < 3) {
+			initHeladerias
+		}
 	}
 
 }
