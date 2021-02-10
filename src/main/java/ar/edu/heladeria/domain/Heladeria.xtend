@@ -70,6 +70,7 @@ class Heladeria {
 	def eliminarGusto(String gusto) {
 		gustos.remove(gusto)
 	}
+	
 
 }
 
