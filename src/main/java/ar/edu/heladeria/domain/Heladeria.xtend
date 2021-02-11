@@ -52,9 +52,7 @@ class Heladeria {
 		if (duenio === null) {
 			throw new UserException("Debe elegir el dueño")
 		}
-		if (gustos.isEmpty) {
-			throw new UserException("Debe seleccionar al menos un gusto")
-		}
+		validarGustos(gustos)
 	}
 
 	override toString() {
@@ -62,11 +60,29 @@ class Heladeria {
 	}
 
 	def agregarGusto(String gusto, int dificultad) {
+		validarGusto(gusto, dificultad)
 		gustos.put(gusto, dificultad)
 	}
-	
+
 	def agregarGustos(Map<String, Integer> gustosNuevos) {
+		validarGustos(gustosNuevos)
 		gustos.putAll(gustosNuevos)
+	}
+
+	def validarGusto(String gusto, int dificultad) {
+		if (gusto.trim.empty) {
+			throw new UserException("El gusto no puede estar vacío")
+		}
+		if (dificultad < 1 || dificultad > 10) {
+			throw new UserException("La dificultad debe ser un valor entre 1 y 10 ")
+		}
+	}
+	
+	def validarGustos(Map<String, Integer> gustos) {
+		if (gustos.isEmpty) {
+			throw new UserException("Debe seleccionar al menos un gusto")
+		}
+		gustos.forEach[gusto, dificultad|validarGusto(gusto, dificultad)]
 	}
 
 	def gustosQueOfrece() {
@@ -74,6 +90,9 @@ class Heladeria {
 	}
 
 	def eliminarGusto(String gusto) {
+		if(!gustos.containsKey(gusto)) {
+			throw new UserException("El gusto a eliminar '" + gusto + "' no existe")
+		}
 		gustos.remove(gusto)
 	}
 	
@@ -81,7 +100,6 @@ class Heladeria {
 		nombre = otraHeladeria.nombre !== null ? otraHeladeria.nombre : nombre
 		tipoHeladeria = otraHeladeria.tipoHeladeria !== null ? otraHeladeria.tipoHeladeria : tipoHeladeria
 	}
-	
 
 }
 
