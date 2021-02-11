@@ -6,6 +6,7 @@ import ar.edu.heladeria.repos.RepoHeladeria
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.uqbar.commons.model.exceptions.UserException
+import java.util.Map
 
 @Service
 class HeladeriaService {
@@ -14,7 +15,7 @@ class HeladeriaService {
 	RepoHeladeria repoHeladeria
 	@Autowired
 	DuenioService duenioService
-
+	
 	def findAll() {
 		repoHeladeria.findAll().toList
 	}
@@ -29,10 +30,33 @@ class HeladeriaService {
 		]);
 	}
 
+	def validarYGuardar(Heladeria heladeria) {
+		heladeria.validar
+		repoHeladeria.save(heladeria)
+	}
+
 	def asignarDuenio(Long heladeriaId, Duenio duenio) {
 		val Heladeria heladeria = findById(heladeriaId)
 		heladeria.duenio = duenioService.findById(duenio.id)
-		repoHeladeria.save(heladeria)
+		validarYGuardar(heladeria)
+	}
+	
+	def actualizar(Long heladeriaId, Heladeria heladeria) {
+		val Heladeria heladeriaFound = findById(heladeriaId)
+		heladeriaFound.merge(heladeria)
+		validarYGuardar(heladeriaFound)
+	}
+
+	def agregarGustos(Long heladeriaId, Map<String, Integer> gustos) {
+		val Heladeria heladeria = findById(heladeriaId)
+		heladeria.agregarGustos(gustos)
+		validarYGuardar(heladeria)
+	}
+
+	def eliminarGustos(Long heladeriaId, Map<String, Integer> gustos) {
+		val Heladeria heladeria = findById(heladeriaId)
+		gustos.forEach[gusto, _|heladeria.eliminarGusto(gusto)]
+		validarYGuardar(heladeria)
 	}
 
 }

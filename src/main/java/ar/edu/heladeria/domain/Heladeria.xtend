@@ -64,6 +64,10 @@ class Heladeria {
 	def agregarGusto(String gusto, int dificultad) {
 		gustos.put(gusto, dificultad)
 	}
+	
+	def agregarGustos(Map<String, Integer> gustosNuevos) {
+		gustos.putAll(gustosNuevos)
+	}
 
 	def gustosQueOfrece() {
 		gustos.keySet.map[gusto|gusto + " -> " + gustos.get(gusto)].toList
@@ -71,6 +75,11 @@ class Heladeria {
 
 	def eliminarGusto(String gusto) {
 		gustos.remove(gusto)
+	}
+	
+	def merge(Heladeria otraHeladeria) {
+		nombre = otraHeladeria.nombre !== null ? otraHeladeria.nombre : nombre
+		tipoHeladeria = otraHeladeria.tipoHeladeria !== null ? otraHeladeria.tipoHeladeria : tipoHeladeria
 	}
 	
 

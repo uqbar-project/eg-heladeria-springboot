@@ -1,15 +1,18 @@
 package ar.edu.heladeria.controller
 
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RestController
+import ar.edu.heladeria.domain.Duenio
+import ar.edu.heladeria.domain.Heladeria
+import ar.edu.heladeria.service.DuenioService
 import ar.edu.heladeria.service.HeladeriaService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
-import ar.edu.heladeria.domain.Duenio
-import ar.edu.heladeria.service.DuenioService
-import org.springframework.web.bind.annotation.PatchMapping
+import org.springframework.web.bind.annotation.RestController
+import java.util.Map
+import org.springframework.web.bind.annotation.DeleteMapping
 
 @RestController
 class HeladeriaController {
@@ -42,6 +45,21 @@ class HeladeriaController {
 	@PatchMapping("/heladerias/{heladeriaId}/asignarDuenio")
 	def asginarDuenio(@RequestBody Duenio duenio, @PathVariable Long heladeriaId) {
 		heladeriaService.asignarDuenio(heladeriaId, duenio)
+	}
+	
+	@PatchMapping("/heladerias/{heladeriaId}/actualizar")
+	def actualizarHeladeria(@RequestBody Heladeria heladeria, @PathVariable Long heladeriaId) {
+		heladeriaService.actualizar(heladeriaId, heladeria)
+	}
+	
+	@PostMapping("/heladerias/{heladeriaId}/agregarGustos")
+	def agregarGustos(@RequestBody Map<String, Integer> gusto, @PathVariable Long heladeriaId) {
+		heladeriaService.agregarGustos(heladeriaId, gusto)
+	}
+	
+	@DeleteMapping("/heladerias/{heladeriaId}/eliminarGustos")
+	def eliminarGustos(@RequestBody Map<String, Integer> gusto, @PathVariable Long heladeriaId) {
+		heladeriaService.eliminarGustos(heladeriaId, gusto)
 	}
 
 }
