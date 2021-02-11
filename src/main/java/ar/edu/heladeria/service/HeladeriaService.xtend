@@ -6,7 +6,6 @@ import ar.edu.heladeria.repos.RepoHeladeria
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.uqbar.commons.model.exceptions.UserException
-import ar.edu.heladeria.repos.RepoDuenios
 
 @Service
 class HeladeriaService {
@@ -14,7 +13,7 @@ class HeladeriaService {
 	@Autowired
 	RepoHeladeria repoHeladeria
 	@Autowired
-	RepoDuenios repoDuenios
+	DuenioService duenioService
 
 	def findAll() {
 		repoHeladeria.findAll().toList
@@ -23,17 +22,16 @@ class HeladeriaService {
 	def findByNombre(String nombre) {
 		repoHeladeria.findByNombreContaining(nombre)
 	}
-
-	def agregarDuenio(Long heladeriaId, Duenio duenio) {
-		val Heladeria heladeria = repoHeladeria.findById(heladeriaId).orElseThrow([|
+	
+	def findById(Long heladeriaId) {
+		repoHeladeria.findById(heladeriaId).orElseThrow([
 			throw new UserException("No se encontró la heladería indicada: " + heladeriaId.toString)
 		]);
+	}
 
-		val Duenio duenioFound = repoDuenios.findById(duenio.id).orElseThrow([|
-			throw new UserException("No se encontró el duenio indicada: " + duenio.id.toString)
-		]);
-
-		heladeria.duenio = duenioFound
+	def asignarDuenio(Long heladeriaId, Duenio duenio) {
+		val Heladeria heladeria = findById(heladeriaId)
+		heladeria.duenio = duenioService.findById(duenio.id)
 		repoHeladeria.save(heladeria)
 	}
 

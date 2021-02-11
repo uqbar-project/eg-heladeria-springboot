@@ -39,9 +39,9 @@ class HeladeriaController {
 		duenioService.crear(duenio)
 	}
 
-	@PatchMapping("/heladerias/{heladeriaId}/agregarDuenio")
-	def agregarDuenio(@RequestBody Duenio duenio, @PathVariable Long heladeriaId) {
-		heladeriaService.agregarDuenio(heladeriaId, duenio)
+	@PatchMapping("/heladerias/{heladeriaId}/asignarDuenio")
+	def asginarDuenio(@RequestBody Duenio duenio, @PathVariable Long heladeriaId) {
+		heladeriaService.asignarDuenio(heladeriaId, duenio)
 	}
 
 }
