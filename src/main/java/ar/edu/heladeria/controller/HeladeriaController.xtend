@@ -27,9 +27,14 @@ class HeladeriaController {
 		return heladeriaService.findAll.toList
 	}
 
-	@GetMapping("/heladerias/{nombre}")
+	@GetMapping("/heladerias/buscar/{nombre}")
 	def buscarHeladeria(@PathVariable String nombre) {
 		return heladeriaService.findByNombre(nombre)
+	}
+
+	@GetMapping("/heladerias/id/{id}")
+	def getHeladeriaById(@PathVariable Long id) {
+		return heladeriaService.findById(id)
 	}
 
 	@GetMapping("/duenios")
@@ -46,17 +51,17 @@ class HeladeriaController {
 	def asginarDuenio(@RequestBody Duenio duenio, @PathVariable Long heladeriaId) {
 		heladeriaService.asignarDuenio(heladeriaId, duenio)
 	}
-	
+
 	@PatchMapping("/heladerias/{heladeriaId}/actualizar")
 	def actualizarHeladeria(@RequestBody Heladeria heladeria, @PathVariable Long heladeriaId) {
 		heladeriaService.actualizar(heladeriaId, heladeria)
 	}
-	
+
 	@PostMapping("/heladerias/{heladeriaId}/agregarGustos")
 	def agregarGustos(@RequestBody Map<String, Integer> gusto, @PathVariable Long heladeriaId) {
 		heladeriaService.agregarGustos(heladeriaId, gusto)
 	}
-	
+
 	@DeleteMapping("/heladerias/{heladeriaId}/eliminarGustos")
 	def eliminarGustos(@RequestBody Map<String, Integer> gusto, @PathVariable Long heladeriaId) {
 		heladeriaService.eliminarGustos(heladeriaId, gusto)
