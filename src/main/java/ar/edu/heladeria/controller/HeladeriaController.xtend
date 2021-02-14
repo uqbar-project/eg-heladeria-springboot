@@ -24,7 +24,7 @@ class HeladeriaController {
 	@Autowired
 	DuenioService duenioService
 
-	@GetMapping("/heladerias")
+	@GetMapping("/heladerias/buscar")
 	def getHeladerias() {
 		return heladeriaService.findAll.toList
 	}
