@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import java.util.Map
 import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.CrossOrigin
 
 @RestController
+@CrossOrigin
 class HeladeriaController {
 
 	@Autowired
