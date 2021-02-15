@@ -49,11 +49,6 @@ class HeladeriaController {
 		duenioService.validarYGuardar(duenio)
 	}
 
-	@PatchMapping("/heladerias/{heladeriaId}/asignarDuenio")
-	def asginarDuenio(@RequestBody Duenio duenio, @PathVariable Long heladeriaId) {
-		heladeriaService.asignarDuenio(heladeriaId, duenio)
-	}
-
 	@PatchMapping("/heladerias/{heladeriaId}/actualizar")
 	def actualizarHeladeria(@RequestBody Heladeria heladeria, @PathVariable Long heladeriaId) {
 		heladeriaService.actualizar(heladeriaId, heladeria)

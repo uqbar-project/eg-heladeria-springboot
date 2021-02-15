@@ -99,6 +99,7 @@ class Heladeria {
 	def merge(Heladeria otraHeladeria) {
 		nombre = otraHeladeria.nombre !== null ? otraHeladeria.nombre : nombre
 		tipoHeladeria = otraHeladeria.tipoHeladeria !== null ? otraHeladeria.tipoHeladeria : tipoHeladeria
+		duenio = otraHeladeria.duenio !== null ? otraHeladeria.duenio : duenio
 	}
 
 }

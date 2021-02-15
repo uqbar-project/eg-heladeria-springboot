@@ -1,12 +1,11 @@
 package ar.edu.heladeria.service
 
-import ar.edu.heladeria.domain.Duenio
 import ar.edu.heladeria.domain.Heladeria
 import ar.edu.heladeria.repos.RepoHeladeria
+import java.util.Map
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.uqbar.commons.model.exceptions.UserException
-import java.util.Map
 
 @Service
 class HeladeriaService {
@@ -35,14 +34,9 @@ class HeladeriaService {
 		repoHeladeria.save(heladeria)
 	}
 
-	def asignarDuenio(Long heladeriaId, Duenio duenio) {
-		val Heladeria heladeria = findById(heladeriaId)
-		heladeria.duenio = duenioService.findById(duenio.id)
-		validarYGuardar(heladeria)
-	}
-
 	def actualizar(Long heladeriaId, Heladeria heladeria) {
 		val Heladeria heladeriaFound = findById(heladeriaId)
+		heladeria.duenio = duenioService.findById(heladeria.duenio.id)
 		heladeriaFound.merge(heladeria)
 		validarYGuardar(heladeriaFound)
 	}
