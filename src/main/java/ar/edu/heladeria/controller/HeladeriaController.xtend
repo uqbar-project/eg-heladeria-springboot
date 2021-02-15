@@ -46,7 +46,7 @@ class HeladeriaController {
 
 	@PostMapping("/duenios/crear")
 	def crearDuenio(@RequestBody Duenio duenio) {
-		duenioService.crear(duenio)
+		duenioService.validarYGuardar(duenio)
 	}
 
 	@PatchMapping("/heladerias/{heladeriaId}/asignarDuenio")

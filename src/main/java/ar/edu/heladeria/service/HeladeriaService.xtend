@@ -15,7 +15,7 @@ class HeladeriaService {
 	RepoHeladeria repoHeladeria
 	@Autowired
 	DuenioService duenioService
-	
+
 	def findAll() {
 		repoHeladeria.findAll().toList
 	}
@@ -23,7 +23,7 @@ class HeladeriaService {
 	def findByNombre(String nombre) {
 		repoHeladeria.findByNombreContaining(nombre)
 	}
-	
+
 	def findById(Long heladeriaId) {
 		repoHeladeria.findById(heladeriaId).orElseThrow([
 			throw new UserException("No se encontró la heladería indicada: " + heladeriaId.toString)
@@ -40,7 +40,7 @@ class HeladeriaService {
 		heladeria.duenio = duenioService.findById(duenio.id)
 		validarYGuardar(heladeria)
 	}
-	
+
 	def actualizar(Long heladeriaId, Heladeria heladeria) {
 		val Heladeria heladeriaFound = findById(heladeriaId)
 		heladeriaFound.merge(heladeria)
@@ -55,7 +55,7 @@ class HeladeriaService {
 
 	def eliminarGustos(Long heladeriaId, Map<String, Integer> gustos) {
 		val Heladeria heladeria = findById(heladeriaId)
-		gustos.forEach[gusto, _|heladeria.eliminarGusto(gusto)]
+		gustos.forEach[gusto, _ignore|heladeria.eliminarGusto(gusto)]
 		validarYGuardar(heladeria)
 	}
 

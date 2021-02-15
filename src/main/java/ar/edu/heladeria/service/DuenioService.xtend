@@ -16,7 +16,8 @@ class DuenioService {
 		repoDuenios.findAll().toList
 	}
 
-	def crear(Duenio duenio) {
+	def validarYGuardar(Duenio duenio) {
+		duenio.validar
 		repoDuenios.save(duenio)
 	}
 
