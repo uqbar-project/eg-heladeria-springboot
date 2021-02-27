@@ -5,7 +5,6 @@ import ar.edu.heladeria.repos.RepoHeladeria
 import java.util.Map
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import org.uqbar.commons.model.exceptions.UserException
 
 @Service
 class HeladeriaService {
@@ -25,7 +24,7 @@ class HeladeriaService {
 
 	def findById(Long heladeriaId) {
 		repoHeladeria.findById(heladeriaId).orElseThrow([
-			throw new UserException("No se encontró la heladería indicada: " + heladeriaId.toString)
+			throw new NotFoundException("No se encontró la heladería indicada: " + heladeriaId.toString)
 		]);
 	}
 
