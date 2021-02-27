@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.SerializationFeature
 import java.util.List
 
 class TestHelpers {
-	
+
 	static def <T extends Object> fromJson(String json, Class<T> expectedType) {
 		mapper.readValue(json, expectedType)
 	}
@@ -15,12 +15,12 @@ class TestHelpers {
 		val type = mapper.getTypeFactory().constructCollectionType(List, expectedType)
 		mapper.readValue(json, type)
 	}
-	
+
 	static def mapper() {
 		new ObjectMapper => [
 			configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 			configure(SerializationFeature.INDENT_OUTPUT, true)
 		]
 	}
-		
+
 }

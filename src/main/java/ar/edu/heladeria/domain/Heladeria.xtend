@@ -77,7 +77,7 @@ class Heladeria {
 			throw new UserException("La dificultad debe ser un valor entre 1 y 10 ")
 		}
 	}
-	
+
 	def validarGustos(Map<String, Integer> gustos) {
 		if (gustos.isEmpty) {
 			throw new UserException("Debe seleccionar al menos un gusto")
@@ -90,12 +90,12 @@ class Heladeria {
 	}
 
 	def eliminarGusto(String gusto) {
-		if(!gustos.containsKey(gusto)) {
+		if (!gustos.containsKey(gusto)) {
 			throw new UserException("El gusto a eliminar '" + gusto + "' no existe")
 		}
 		gustos.remove(gusto)
 	}
-	
+
 	def merge(Heladeria otraHeladeria) {
 		nombre = otraHeladeria.nombre !== null ? otraHeladeria.nombre : nombre
 		tipoHeladeria = otraHeladeria.tipoHeladeria !== null ? otraHeladeria.tipoHeladeria : tipoHeladeria

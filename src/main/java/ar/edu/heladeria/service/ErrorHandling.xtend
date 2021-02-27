@@ -14,7 +14,7 @@ class ErrorHandling extends ResponseEntityExceptionHandler {
 	def devolver400(UserException error) {
 		ResponseEntity.badRequest.body(error.message)
 	}
-	
+
 	@ExceptionHandler(NotFoundException)
 	def devolver404(NotFoundException error) {
 		ResponseEntity.status(HttpStatus.NOT_FOUND).body(error.message)
@@ -23,9 +23,9 @@ class ErrorHandling extends ResponseEntityExceptionHandler {
 }
 
 class NotFoundException extends UserException {
-	
+
 	new(String message) {
 		super(message)
 	}
-	
+
 }
