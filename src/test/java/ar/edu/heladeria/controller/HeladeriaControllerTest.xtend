@@ -39,7 +39,7 @@ class HeladeriaControllerTest {
 		.perform(MockMvcRequestBuilders.get("/heladerias/buscar/{nombre}", "Monte"))
 		.andExpect(status.isOk)
 		.andExpect(content.contentType("application/json"))
-		.andExpect(jsonPath("$.[0].nombre").value("Monte Castro"))
+		.andExpect(jsonPath("$.[0].nombre").value("Monte Olivia"))
 	}
 
 	@Test
