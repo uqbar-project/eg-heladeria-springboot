@@ -4,7 +4,6 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
-import org.uqbar.commons.model.exceptions.UserException
 import org.springframework.http.HttpStatus
 
 @ControllerAdvice
@@ -22,10 +21,17 @@ class ErrorHandling extends ResponseEntityExceptionHandler {
 
 }
 
-class NotFoundException extends UserException {
+class NotFoundException extends Exception {
 
 	new(String message) {
 		super(message)
 	}
 
+}
+
+class UserException extends Exception {
+
+	new(String message) {
+		super(message)
+	}
 }

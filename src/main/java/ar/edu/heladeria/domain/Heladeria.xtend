@@ -1,5 +1,6 @@
 package ar.edu.heladeria.domain
 
+import ar.edu.heladeria.service.UserException
 import java.util.Map
 import javax.persistence.CascadeType
 import javax.persistence.CollectionTable
@@ -14,7 +15,6 @@ import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import org.eclipse.xtend.lib.annotations.Accessors
-import org.uqbar.commons.model.exceptions.UserException
 import javax.persistence.MapKeyColumn
 
 @Accessors

@@ -1,11 +1,11 @@
 package ar.edu.heladeria.domain
 
+import ar.edu.heladeria.service.UserException
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import org.eclipse.xtend.lib.annotations.Accessors
-import org.uqbar.commons.model.exceptions.UserException
 
 @Accessors
 @Entity
