@@ -5,6 +5,7 @@ import ar.edu.heladeria.repos.RepoHeladeria
 import java.util.Map
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class HeladeriaService {
@@ -33,19 +34,22 @@ class HeladeriaService {
 		repoHeladeria.save(heladeria)
 	}
 
+	@Transactional
 	def actualizar(Long heladeriaId, Heladeria heladeria) {
 		val Heladeria heladeriaFound = findById(heladeriaId)
-		heladeria.duenio = duenioService.findById(heladeria.duenio.id)
+		heladeria.duenio = heladeria.duenio !== null ? duenioService.findById(heladeria.duenio.id) : heladeria.duenio
 		heladeriaFound.merge(heladeria)
 		validarYGuardar(heladeriaFound)
 	}
 
+	@Transactional
 	def agregarGustos(Long heladeriaId, Map<String, Integer> gustos) {
 		val Heladeria heladeria = findById(heladeriaId)
 		heladeria.agregarGustos(gustos)
 		validarYGuardar(heladeria)
 	}
 
+	@Transactional
 	def eliminarGustos(Long heladeriaId, Map<String, Integer> gustos) {
 		val Heladeria heladeria = findById(heladeriaId)
 		gustos.forEach[gusto, _ignore|heladeria.eliminarGusto(gusto)]

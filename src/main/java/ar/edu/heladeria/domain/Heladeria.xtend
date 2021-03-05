@@ -14,11 +14,15 @@ import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
-import org.eclipse.xtend.lib.annotations.Accessors
 import javax.persistence.MapKeyColumn
+import javax.persistence.NamedAttributeNode
+import javax.persistence.NamedEntityGraph
+import org.eclipse.xtend.lib.annotations.Accessors
 
 @Accessors
 @Entity
+@NamedEntityGraph(name="Heladeria.default", attributeNodes=#[@NamedAttributeNode("gustos"),
+	@NamedAttributeNode("duenio")])
 class Heladeria {
 
 	@Id
@@ -31,7 +35,7 @@ class Heladeria {
 	@Enumerated(EnumType.ORDINAL) // o EnumType.STRING
 	TipoHeladeria tipoHeladeria
 
-	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	Duenio duenio
 
 	@ElementCollection
