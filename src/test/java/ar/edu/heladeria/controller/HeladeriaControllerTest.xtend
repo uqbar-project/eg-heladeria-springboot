@@ -12,6 +12,12 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.http.MediaType
+import ar.edu.heladeria.service.HeladeriaService
+import ar.edu.heladeria.domain.Heladeria
+import ar.edu.heladeria.controller.TestHelpers
+import java.util.Map
+import java.util.Collections
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -21,6 +27,8 @@ class HeladeriaControllerTest {
 
 	@Autowired
 	MockMvc mockMvc
+	@Autowired
+	HeladeriaService heladeriaService
 
 	@Test
 	@DisplayName("buscar sin parámetros trae todas las heladerías")
@@ -43,7 +51,7 @@ class HeladeriaControllerTest {
 	}
 
 	@Test
-	@DisplayName("se puede buscar una heladería por el id")
+	@DisplayName("se puede obtener una heladería por el id")
 	def void buscarHeladeriaPorId() {
 		mockMvc
 		.perform(MockMvcRequestBuilders.get("/heladerias/id/{id}", "1"))
@@ -65,7 +73,68 @@ class HeladeriaControllerTest {
 	@DisplayName("al buscar una heladería por id incorrecto devuelve 400")
 	def void buscarHeladeriaPorIdIncorrecto() {
 		mockMvc
-		.perform(MockMvcRequestBuilders.get("/heladerias/id/{id}", "hola"))
+		.perform(MockMvcRequestBuilders.get("/heladerias/id/{id}", "invalido"))
 		.andExpect(status.badRequest)
+	}
+	
+	@Test
+	@DisplayName("se pueden listar a todos los dueños")
+	def void todosLosDuenios() {
+		mockMvc
+		.perform(MockMvcRequestBuilders.get("/duenios"))
+		.andExpect(status.isOk)
+		.andExpect(content.contentType("application/json"))
+		.andExpect(jsonPath("$.length()").value(3))
+	}
+	
+	@Test
+	@DisplayName("se puede actualizar una heladería por id con un payload válido")
+	def void actualizarHeladeria() {
+		mockMvc
+		.perform(
+			MockMvcRequestBuilders.patch("/heladerias/{heladeriaId}/actualizar", "1")
+			.contentType(MediaType.APPLICATION_JSON)
+			.content('{"nombre": "nuevoNombre"}')
+		)
+		.andExpect(status.isOk)
+		.andExpect(content.contentType("application/json"))
+		.andExpect(jsonPath("$.nombre").value('nuevoNombre'))
+		
+		// tearDown
+		heladeriaService.actualizar(1L, TestHelpers.fromJson('{"nombre": "Tucán"}', Heladeria))
+	}
+	
+	@Test
+	@DisplayName("se pueden agregar gustos a una heladería")
+	def void agregarGustos() {
+		mockMvc
+		.perform(
+			MockMvcRequestBuilders.post("/heladerias/{heladeriaId}/agregarGustos", "1")
+			.contentType(MediaType.APPLICATION_JSON)
+			.content('{"unNuevoGusto": 10}')
+		)
+		.andExpect(status.isOk)
+		.andExpect(content.contentType("application/json"))
+		.andExpect(jsonPath("$.gustos.unNuevoGusto").value(10))
+		
+		// tearDown
+		heladeriaService.eliminarGustos(1L, Collections.singletonMap("unNuevoGusto", 10))
+	}
+	
+	@Test
+	@DisplayName("se pueden eliminar gustos a una heladería")
+	def void eliminarGustos() {
+		mockMvc
+		.perform(
+			MockMvcRequestBuilders.delete("/heladerias/{heladeriaId}/eliminarGustos", "1")
+			.contentType(MediaType.APPLICATION_JSON)
+			.content('{"frutilla": 3}')
+		)
+		.andExpect(status.isOk)
+		.andExpect(content.contentType("application/json"))
+		.andExpect(jsonPath("$.gustos.length()").value(3))
+		
+		// tearDown
+		heladeriaService.agregarGustos(1L, Collections.singletonMap("frutilla", 3))
 	}
 }
