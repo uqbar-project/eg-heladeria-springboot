@@ -92,7 +92,7 @@ class HeladeriaControllerTest {
 	def void actualizarHeladeria() {
 		mockMvc
 		.perform(
-			MockMvcRequestBuilders.patch("/heladerias/{heladeriaId}/actualizar", "1")
+			MockMvcRequestBuilders.patch("/heladerias/{heladeriaId}/", "1")
 			.contentType(MediaType.APPLICATION_JSON)
 			.content('{"nombre": "nuevoNombre"}')
 		)
@@ -109,7 +109,7 @@ class HeladeriaControllerTest {
 	def void agregarGustos() {
 		mockMvc
 		.perform(
-			MockMvcRequestBuilders.post("/heladerias/{heladeriaId}/agregarGustos", "1")
+			MockMvcRequestBuilders.post("/heladerias/{heladeriaId}/gustos", "1")
 			.contentType(MediaType.APPLICATION_JSON)
 			.content('{"unNuevoGusto": 10}')
 		)
@@ -126,7 +126,7 @@ class HeladeriaControllerTest {
 	def void eliminarGustos() {
 		mockMvc
 		.perform(
-			MockMvcRequestBuilders.delete("/heladerias/{heladeriaId}/eliminarGustos", "1")
+			MockMvcRequestBuilders.delete("/heladerias/{heladeriaId}/gustos", "1")
 			.contentType(MediaType.APPLICATION_JSON)
 			.content('{"frutilla": 3}')
 		)
