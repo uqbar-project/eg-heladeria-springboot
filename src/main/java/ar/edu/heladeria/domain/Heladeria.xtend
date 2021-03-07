@@ -59,15 +59,6 @@ class Heladeria {
 		validarGustos(gustos)
 	}
 
-	override toString() {
-		nombre
-	}
-
-	def agregarGusto(String gusto, int dificultad) {
-		validarGusto(gusto, dificultad)
-		gustos.put(gusto, dificultad)
-	}
-
 	def agregarGustos(Map<String, Integer> gustosNuevos) {
 		validarGustos(gustosNuevos)
 		gustos.putAll(gustosNuevos)
@@ -87,10 +78,6 @@ class Heladeria {
 			throw new UserException("Debe seleccionar al menos un gusto")
 		}
 		gustos.forEach[gusto, dificultad|validarGusto(gusto, dificultad)]
-	}
-
-	def gustosQueOfrece() {
-		gustos.keySet.map[gusto|gusto + " -> " + gustos.get(gusto)].toList
 	}
 
 	def eliminarGusto(String gusto) {
