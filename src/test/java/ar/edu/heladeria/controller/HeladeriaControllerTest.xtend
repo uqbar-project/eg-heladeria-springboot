@@ -150,14 +150,14 @@ class HeladeriaControllerTest {
 		.perform(
 			MockMvcRequestBuilders.patch("/heladerias/{heladeriaId}/", "1")
 			.contentType(MediaType.APPLICATION_JSON)
-			.content('{"nombre": "nuevoNombre"}')
+			.content('{"nombre": "nuevoNombre", "duenio": {"id": 2, "nombreCompleto": "Olivia Heladette"}}')
 		)
 		.andExpect(status.isOk)
 		.andExpect(content.contentType("application/json"))
 		.andExpect(jsonPath("$.nombre").value('nuevoNombre'))
 		
 		// tearDown
-		heladeriaService.actualizar(1L, TestHelpers.fromJson('{"nombre": "Tucán"}', Heladeria))
+		heladeriaService.actualizar(1L, TestHelpers.fromJson('{"nombre": "Tucán", "duenio": {"id": 1, "nombreCompleto": "Carlos Martinelli"}}', Heladeria))
 	}
 	
 	@Test
