@@ -44,22 +44,22 @@ class HeladeriaController {
 		return duenioService.findAll.toList
 	}
 
-	@PostMapping("/duenios/crear")
+	@PostMapping("/duenios")
 	def crearDuenio(@RequestBody Duenio duenio) {
 		duenioService.validarYGuardar(duenio)
 	}
 
-	@PatchMapping("/heladerias/{heladeriaId}/actualizar")
+	@PatchMapping("/heladerias/{heladeriaId}")
 	def actualizarHeladeria(@RequestBody Heladeria heladeria, @PathVariable Long heladeriaId) {
 		heladeriaService.actualizar(heladeriaId, heladeria)
 	}
 
-	@PostMapping("/heladerias/{heladeriaId}/agregarGustos")
+	@PostMapping("/heladerias/{heladeriaId}/gustos")
 	def agregarGustos(@RequestBody Map<String, Integer> gusto, @PathVariable Long heladeriaId) {
 		heladeriaService.agregarGustos(heladeriaId, gusto)
 	}
 
-	@DeleteMapping("/heladerias/{heladeriaId}/eliminarGustos")
+	@DeleteMapping("/heladerias/{heladeriaId}/gustos")
 	def eliminarGustos(@RequestBody Map<String, Integer> gusto, @PathVariable Long heladeriaId) {
 		heladeriaService.eliminarGustos(heladeriaId, gusto)
 	}
