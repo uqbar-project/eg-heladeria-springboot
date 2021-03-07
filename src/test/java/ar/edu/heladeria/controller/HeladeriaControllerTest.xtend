@@ -120,6 +120,30 @@ class HeladeriaControllerTest {
 	}
 	
 	@Test
+	@DisplayName("Intentar crear un dueño con nombre vacío, devuelve 400")
+	def void crearDuenioNombreVacioError() {
+		mockMvc
+		.perform(
+			MockMvcRequestBuilders.post("/duenios")
+			.contentType(MediaType.APPLICATION_JSON)
+			.content('{"nombreCompleto": ""}')
+		)
+		.andExpect(status.badRequest)
+	}
+	
+	@Test
+	@DisplayName("Intentar crear un dueño con payload invalido, devuelve 400")
+	def void crearDuenioInvalidoError() {
+		mockMvc
+		.perform(
+			MockMvcRequestBuilders.post("/duenios")
+			.contentType(MediaType.APPLICATION_JSON)
+			.content('{}')
+		)
+		.andExpect(status.badRequest)
+	}
+	
+	@Test
 	@DisplayName("se puede actualizar una heladería por id con un payload válido")
 	def void actualizarHeladeria() {
 		mockMvc
@@ -134,6 +158,30 @@ class HeladeriaControllerTest {
 		
 		// tearDown
 		heladeriaService.actualizar(1L, TestHelpers.fromJson('{"nombre": "Tucán"}', Heladeria))
+	}
+	
+	@Test
+	@DisplayName("Intentar actualizar una heladería con nombre vacío, devuelve 400")
+	def void actualizarHeladeriaNombreVacioError() {
+		mockMvc
+		.perform(
+			MockMvcRequestBuilders.patch("/heladerias/{heladeriaId}/", "1")
+			.contentType(MediaType.APPLICATION_JSON)
+			.content('{"nombre": ""}')
+		)
+		.andExpect(status.badRequest)
+	}
+	
+	@Test
+	@DisplayName("intentar actualizar una heladería con payload inválido, devuelve 400")
+	def void actualizarHeladeriaCategoriaInvalidaError() {
+		mockMvc
+		.perform(
+			MockMvcRequestBuilders.patch("/heladerias/{heladeriaId}/", "1")
+			.contentType(MediaType.APPLICATION_JSON)
+			.content('{"tipoHeladeria": "BUENISIMA"}')
+		)
+		.andExpect(status.badRequest)
 	}
 	
 	@Test
@@ -154,6 +202,30 @@ class HeladeriaControllerTest {
 	}
 	
 	@Test
+	@DisplayName("Intentar agregar un gusto con más de 10 de dificultad, devuelve 400")
+	def void agregarGustosFueraDeLimiteError() {
+		mockMvc
+		.perform(
+			MockMvcRequestBuilders.post("/heladerias/{heladeriaId}/gustos", "1")
+			.contentType(MediaType.APPLICATION_JSON)
+			.content('{"gustoDemasiadoDificil": 15}')
+		)
+		.andExpect(status.badRequest)
+	}
+	
+	@Test
+	@DisplayName("Intentar agregar un gusto sin nombre, devuelve 400")
+	def void agregarGustosSinNombreError() {
+		mockMvc
+		.perform(
+			MockMvcRequestBuilders.post("/heladerias/{heladeriaId}/gustos", "1")
+			.contentType(MediaType.APPLICATION_JSON)
+			.content('{"": 5}')
+		)
+		.andExpect(status.badRequest)
+	}
+	
+	@Test
 	@DisplayName("se pueden eliminar gustos a una heladería")
 	def void eliminarGustos() {
 		mockMvc
@@ -168,5 +240,29 @@ class HeladeriaControllerTest {
 		
 		// tearDown
 		heladeriaService.agregarGustos(1L, Collections.singletonMap("frutilla", 3))
+	}
+	
+	@Test
+	@DisplayName("Intentar eliminar gustos inexistentes de una heladería, devuelve 400")
+	def void eliminarGustosInexistentesError() {
+		mockMvc
+		.perform(
+			MockMvcRequestBuilders.delete("/heladerias/{heladeriaId}/gustos", "1")
+			.contentType(MediaType.APPLICATION_JSON)
+			.content('{"gustoInexistente": 3}')
+		)
+		.andExpect(status.badRequest)
+	}
+	
+	@Test
+	@DisplayName("Intentar eliminar el último gusto de una heladería, devuelve 400")
+	def void eliminarUltimoGustoError() {
+		mockMvc
+		.perform(
+			MockMvcRequestBuilders.delete("/heladerias/{heladeriaId}/gustos", "3")
+			.contentType(MediaType.APPLICATION_JSON)
+			.content('{"crema americana": 2}')
+		)
+		.andExpect(status.badRequest)
 	}
 }
