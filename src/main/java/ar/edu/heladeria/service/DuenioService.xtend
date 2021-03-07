@@ -4,6 +4,7 @@ import ar.edu.heladeria.domain.Duenio
 import ar.edu.heladeria.repos.RepoDuenios
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import javax.transaction.Transactional
 
 @Service
 class DuenioService {
@@ -24,6 +25,11 @@ class DuenioService {
 		repoDuenios.findById(duenioId).orElseThrow([
 			throw new NotFoundException("No se encontró el duenio indicado: " + duenioId.toString)
 		]);
+	}
+	
+	@Transactional
+	def delete(String nombreCompleto){
+		repoDuenios.deleteByNombreCompleto(nombreCompleto)
 	}
 
 }

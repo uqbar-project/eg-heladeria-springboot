@@ -16,8 +16,9 @@ import org.springframework.http.MediaType
 import ar.edu.heladeria.service.HeladeriaService
 import ar.edu.heladeria.domain.Heladeria
 import ar.edu.heladeria.controller.TestHelpers
-import java.util.Map
 import java.util.Collections
+import ar.edu.heladeria.service.DuenioService
+import static org.junit.jupiter.api.Assertions.assertEquals
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -29,6 +30,8 @@ class HeladeriaControllerTest {
 	MockMvc mockMvc
 	@Autowired
 	HeladeriaService heladeriaService
+	@Autowired
+	DuenioService duenioService
 
 	@Test
 	@DisplayName("buscar sin parámetros trae todas las heladerías")
@@ -41,13 +44,23 @@ class HeladeriaControllerTest {
 	}
 
 	@Test
-	@DisplayName("se puede buscar una heladería por el nombre")
+	@DisplayName("se puede buscar heladerías por nombre")
 	def void buscarHeladeria() {
 		mockMvc
 		.perform(MockMvcRequestBuilders.get("/heladerias/buscar/{nombre}", "Monte"))
 		.andExpect(status.isOk)
 		.andExpect(content.contentType("application/json"))
 		.andExpect(jsonPath("$.[0].nombre").value("Monte Olivia"))
+	}
+	
+	@Test
+	@DisplayName("Si al buscar heladerías el criterio no matchea, devuelve lista vacía")
+	def void buscarHeladeriasSinMatch() {
+		mockMvc
+		.perform(MockMvcRequestBuilders.get("/heladerias/buscar/{nombre}", "criterioinexistente"))
+		.andExpect(status.isOk)
+		.andExpect(content.contentType("application/json"))
+		.andExpect(jsonPath("$.length()").value(0))
 	}
 
 	@Test
@@ -85,6 +98,25 @@ class HeladeriaControllerTest {
 		.andExpect(status.isOk)
 		.andExpect(content.contentType("application/json"))
 		.andExpect(jsonPath("$.length()").value(3))
+	}
+	
+	@Test
+	@DisplayName("se puede crear un nuevo dueño con un payload válido")
+	def void crearDuenio() {
+		mockMvc
+		.perform(
+			MockMvcRequestBuilders.post("/duenios")
+			.contentType(MediaType.APPLICATION_JSON)
+			.content('{"nombreCompleto": "Un nuevo duenio"}')
+		)
+		.andExpect(status.isOk)
+		.andExpect(content.contentType("application/json"))
+		.andExpect(jsonPath("$.nombreCompleto").value('Un nuevo duenio'))
+		
+		// tearDown
+		assertEquals(duenioService.findAll.length, 4)
+		duenioService.delete("Un nuevo duenio")
+		assertEquals(duenioService.findAll.length, 3)
 	}
 	
 	@Test
@@ -132,7 +164,7 @@ class HeladeriaControllerTest {
 		)
 		.andExpect(status.isOk)
 		.andExpect(content.contentType("application/json"))
-		.andExpect(jsonPath("$.gustos.length()").value(3))
+		.andExpect(jsonPath("$.gustos.frutilla").doesNotExist)
 		
 		// tearDown
 		heladeriaService.agregarGustos(1L, Collections.singletonMap("frutilla", 3))

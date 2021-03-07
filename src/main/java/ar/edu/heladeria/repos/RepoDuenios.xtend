@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository
 interface RepoDuenios extends CrudRepository<Duenio, Long> {
 
 	def Duenio findByNombreCompleto(String nombreCompleto)
+	
+	def void deleteByNombreCompleto(String nombreCompleto)
 }
