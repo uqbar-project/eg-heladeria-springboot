@@ -1,24 +1,23 @@
 package ar.edu.heladeria.controller
 
+import ar.edu.heladeria.HeladeriaBootstrap
+import ar.edu.heladeria.service.DuenioService
+import ar.edu.heladeria.service.HeladeriaService
+import java.util.Collections
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.http.MediaType
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 
+import static org.junit.jupiter.api.Assertions.assertEquals
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import org.springframework.http.MediaType
-import ar.edu.heladeria.service.HeladeriaService
-import ar.edu.heladeria.domain.Heladeria
-import ar.edu.heladeria.controller.TestHelpers
-import java.util.Collections
-import ar.edu.heladeria.service.DuenioService
-import static org.junit.jupiter.api.Assertions.assertEquals
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -32,6 +31,8 @@ class HeladeriaControllerTest {
 	HeladeriaService heladeriaService
 	@Autowired
 	DuenioService duenioService
+	@Autowired
+	HeladeriaBootstrap bootstrap
 
 	@Test
 	@DisplayName("buscar sin parámetros trae todas las heladerías")
@@ -150,14 +151,14 @@ class HeladeriaControllerTest {
 		.perform(
 			MockMvcRequestBuilders.patch("/heladerias/{heladeriaId}/", "1")
 			.contentType(MediaType.APPLICATION_JSON)
-			.content('{"nombre": "nuevoNombre", "duenio": {"id": 2, "nombreCompleto": "Olivia Heladette"}}')
+			.content('{"nombre": "nuevoNombre", "duenio": {"id": 2}}')
 		)
 		.andExpect(status.isOk)
 		.andExpect(content.contentType("application/json"))
 		.andExpect(jsonPath("$.nombre").value('nuevoNombre'))
 		
 		// tearDown
-		heladeriaService.actualizar(1L, TestHelpers.fromJson('{"nombre": "Tucán", "duenio": {"id": 1, "nombreCompleto": "Carlos Martinelli"}}', Heladeria))
+		heladeriaService.actualizar(1L, bootstrap.tucan)
 	}
 	
 	@Test
@@ -167,9 +168,21 @@ class HeladeriaControllerTest {
 		.perform(
 			MockMvcRequestBuilders.patch("/heladerias/{heladeriaId}/", "1")
 			.contentType(MediaType.APPLICATION_JSON)
-			.content('{"nombre": ""}')
+			.content('{"nombre": "", "duenio": {"id": 2}}')
 		)
 		.andExpect(status.badRequest)
+	}
+	
+	@Test
+	@DisplayName("Intentar actualizar una heladería con un duenio inexistente, devuelve 404")
+	def void actualizarHeladeriaDuenioInexistenteError() {
+		mockMvc
+		.perform(
+			MockMvcRequestBuilders.patch("/heladerias/{heladeriaId}/", "1")
+			.contentType(MediaType.APPLICATION_JSON)
+			.content('{"nombre": "nuevoNombre", "duenio": {"id": 999, "nombreCompleto": "Inexistente"}}')
+		)
+		.andExpect(status.notFound)
 	}
 	
 	@Test
