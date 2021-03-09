@@ -7,17 +7,19 @@ import ar.edu.heladeria.repos.RepoHeladeria
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import org.eclipse.xtend.lib.annotations.Accessors
 
 @Service
-@Accessors
 class HeladeriaBootstrap implements InitializingBean {
-
+	
 	Heladeria tucan
 	Heladeria monteOlivia
 	Heladeria frigor
 	@Autowired
 	RepoHeladeria repoHeladeria
+	
+	def getTucan() {
+		tucan
+	}
 
 	def void initHeladerias() {
 		tucan = new Heladeria => [

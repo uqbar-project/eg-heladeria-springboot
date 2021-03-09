@@ -21,7 +21,7 @@ class ErrorHandling extends ResponseEntityExceptionHandler {
 
 }
 
-class NotFoundException extends Exception {
+class NotFoundException extends RuntimeException {
 
 	new(String message) {
 		super(message)
@@ -29,7 +29,7 @@ class NotFoundException extends Exception {
 
 }
 
-class UserException extends Exception {
+class UserException extends RuntimeException {
 
 	new(String message) {
 		super(message)
