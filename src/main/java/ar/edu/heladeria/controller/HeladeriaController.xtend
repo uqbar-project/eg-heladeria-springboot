@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
+import ar.edu.heladeria.serializer.HeladeriaDTO
 
 @RestController
 @CrossOrigin
@@ -26,15 +27,15 @@ class HeladeriaController {
 	DuenioService duenioService
 
 	@GetMapping("/heladerias/buscar")
-	@ApiOperation(value="Todas las heladerías", notes="Devuelve los datos de todas las heladerías. De cada una se incluye su dueño y gustos.")
+	@ApiOperation(value="Todas las heladerías", notes="Devuelve los datos de todas las heladerías. De cada una se incluye su dueño.")
 	def getHeladerias() {
-		return heladeriaService.findAll.toList
+		return heladeriaService.findAll.map[HeladeriaDTO.fromHeladeria(it)]
 	}
 
 	@GetMapping("/heladerias/buscar/{nombre}")
-	@ApiOperation(value="Buscar heladerías por nombre", notes="Devuelve los datos de las heladerías que contengan en su nombre el string recibido. De cada una se incluye su dueño y gustos.")
+	@ApiOperation(value="Buscar heladerías por nombre", notes="Devuelve los datos de las heladerías que contengan en su nombre el string recibido. De cada una se incluye su dueño.")
 	def buscarHeladeria(@PathVariable String nombre) {
-		return heladeriaService.findByNombre(nombre)
+		return heladeriaService.findByNombre(nombre).map[HeladeriaDTO.fromHeladeria(it)]
 	}
 
 	@GetMapping("/heladerias/id/{id}")
@@ -46,7 +47,7 @@ class HeladeriaController {
 	@GetMapping("/duenios")
 	@ApiOperation(value="Todos los dueños", notes="Devuelve la información de todos los dueños.")
 	def getDuenios() {
-		return duenioService.findAll.toList
+		return duenioService.findAll
 	}
 
 	@PostMapping("/duenios")

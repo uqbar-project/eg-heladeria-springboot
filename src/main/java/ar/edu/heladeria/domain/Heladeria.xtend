@@ -15,14 +15,10 @@ import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.MapKeyColumn
-import javax.persistence.NamedAttributeNode
-import javax.persistence.NamedEntityGraph
 import org.eclipse.xtend.lib.annotations.Accessors
 
 @Accessors
 @Entity
-@NamedEntityGraph(name="Heladeria.default", attributeNodes=#[@NamedAttributeNode("gustos"),
-	@NamedAttributeNode("duenio")])
 class Heladeria {
 
 	@Id

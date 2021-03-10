@@ -9,18 +9,13 @@ import org.springframework.stereotype.Repository
 @Repository
 interface RepoHeladeria extends CrudRepository<Heladeria, Long> {
 
-	final String GRAFO_DEFAULT = "Heladeria.default"
-
-	@EntityGraph(GRAFO_DEFAULT)
+	@EntityGraph(attributePaths = #["duenio"])
 	override findAll()
 
-	@EntityGraph(GRAFO_DEFAULT)
+	@EntityGraph(attributePaths = #["duenio", "gustos"])
 	override findById(Long id)
 
-	@EntityGraph(GRAFO_DEFAULT)
-	def Heladeria findByNombre(String nombre)
-
-	@EntityGraph(GRAFO_DEFAULT)
+	@EntityGraph(attributePaths = #["duenio"])
 	def List<Heladeria> findByNombreContaining(String nombre)
 
 }
