@@ -6,6 +6,13 @@
 Este ejemplo está implementado con Xtend y Springboot, se recomienda acompañarlo con el frontend desarrollado en svelte:
 https://github.com/uqbar-project/eg-heladeria-svelte
 
+Además necesitarás tener levantada una base de datos MySQL con un esquema llamado `heladeria`
+
+```
+drop schema if exists heladeria;
+create schema if not exists heladeria;
+```
+
 Encontrarás:
 * un modelo de datos compuesto por heladerías, que definen un mapa de gustos (strings) con dificultades de fabricación (integers)
 * las heladerías pueden ser artesanales, económicas o industriales, implementadas con un enum
