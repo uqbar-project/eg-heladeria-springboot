@@ -1,6 +1,7 @@
 package ar.edu.heladeria.domain
 
 import ar.edu.heladeria.service.UserException
+import java.text.Normalizer
 import java.util.Map
 import javax.persistence.CascadeType
 import javax.persistence.CollectionTable
@@ -57,7 +58,14 @@ class Heladeria {
 
 	def agregarGustos(Map<String, Integer> gustosNuevos) {
 		validarGustos(gustosNuevos)
-		gustos.putAll(gustosNuevos)
+		gustosNuevos.entrySet.forEach [ gusto |
+			agregarGusto(gusto.key, gusto.value)
+		]
+	}
+
+	def agregarGusto(String gusto, Integer dificultad) {
+		var gustoNormalizado = Normalizer.normalize(gusto.toLowerCase, Normalizer.Form.NFD).replaceAll("\\p{M}", "");
+		gustos.put(gustoNormalizado, dificultad)
 	}
 
 	def validarGusto(String gusto, int dificultad) {

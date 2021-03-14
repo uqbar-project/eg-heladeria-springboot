@@ -204,14 +204,14 @@ class HeladeriaControllerTest {
 		.perform(
 			MockMvcRequestBuilders.post("/heladerias/{heladeriaId}/gustos", "1")
 			.contentType(MediaType.APPLICATION_JSON)
-			.content('{"unNuevoGusto": 10}')
+			.content('{"nuevo": 10}')
 		)
 		.andExpect(status.isOk)
 		.andExpect(content.contentType("application/json"))
-		.andExpect(jsonPath("$.gustos.unNuevoGusto").value(10))
+		.andExpect(jsonPath("$.gustos.nuevo").value(10))
 		
 		// tearDown
-		heladeriaService.eliminarGustos(1L, Collections.singletonMap("unNuevoGusto", 10))
+		heladeriaService.eliminarGustos(1L, Collections.singletonMap("nuevo", 10))
 	}
 	
 	@Test
