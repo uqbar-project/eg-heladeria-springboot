@@ -1,9 +1,6 @@
 package ar.edu.heladeria.controller
 
-import ar.edu.heladeria.HeladeriaBootstrap
-import ar.edu.heladeria.service.DuenioService
-import ar.edu.heladeria.service.HeladeriaService
-import java.util.Collections
+import javax.transaction.Transactional
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -14,7 +11,6 @@ import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 
-import static org.junit.jupiter.api.Assertions.assertEquals
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
@@ -27,12 +23,6 @@ class HeladeriaControllerTest {
 
 	@Autowired
 	MockMvc mockMvc
-	@Autowired
-	HeladeriaService heladeriaService
-	@Autowired
-	DuenioService duenioService
-	@Autowired
-	HeladeriaBootstrap bootstrap
 
 	@Test
 	@DisplayName("buscar sin parámetros trae todas las heladerías")
@@ -103,6 +93,7 @@ class HeladeriaControllerTest {
 	
 	@Test
 	@DisplayName("se puede crear un nuevo dueño con un payload válido")
+	@Transactional
 	def void crearDuenio() {
 		mockMvc
 		.perform(
@@ -113,11 +104,6 @@ class HeladeriaControllerTest {
 		.andExpect(status.isOk)
 		.andExpect(content.contentType("application/json"))
 		.andExpect(jsonPath("$.nombreCompleto").value('Un nuevo duenio'))
-		
-		// tearDown
-		assertEquals(duenioService.findAll.length, 4)
-		duenioService.delete("Un nuevo duenio")
-		assertEquals(duenioService.findAll.length, 3)
 	}
 	
 	@Test
@@ -146,6 +132,7 @@ class HeladeriaControllerTest {
 	
 	@Test
 	@DisplayName("se puede actualizar una heladería por id con un payload válido")
+	@Transactional
 	def void actualizarHeladeria() {
 		mockMvc
 		.perform(
@@ -156,9 +143,6 @@ class HeladeriaControllerTest {
 		.andExpect(status.isOk)
 		.andExpect(content.contentType("application/json"))
 		.andExpect(jsonPath("$.nombre").value('nuevoNombre'))
-		
-		// tearDown
-		heladeriaService.actualizar(1L, bootstrap.tucan)
 	}
 	
 	@Test
@@ -199,6 +183,7 @@ class HeladeriaControllerTest {
 	
 	@Test
 	@DisplayName("se pueden agregar gustos a una heladería")
+	@Transactional
 	def void agregarGustos() {
 		mockMvc
 		.perform(
@@ -209,9 +194,6 @@ class HeladeriaControllerTest {
 		.andExpect(status.isOk)
 		.andExpect(content.contentType("application/json"))
 		.andExpect(jsonPath("$.gustos.nuevo").value(10))
-		
-		// tearDown
-		heladeriaService.eliminarGustos(1L, Collections.singletonMap("nuevo", 10))
 	}
 	
 	@Test
@@ -240,6 +222,7 @@ class HeladeriaControllerTest {
 	
 	@Test
 	@DisplayName("se pueden eliminar gustos a una heladería")
+	@Transactional
 	def void eliminarGustos() {
 		mockMvc
 		.perform(
@@ -250,9 +233,6 @@ class HeladeriaControllerTest {
 		.andExpect(status.isOk)
 		.andExpect(content.contentType("application/json"))
 		.andExpect(jsonPath("$.gustos.frutilla").doesNotExist)
-		
-		// tearDown
-		heladeriaService.agregarGustos(1L, Collections.singletonMap("frutilla", 3))
 	}
 	
 	@Test
