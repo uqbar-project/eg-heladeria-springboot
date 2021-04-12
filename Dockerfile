@@ -2,8 +2,10 @@ FROM maven:3.6.3-openjdk-11
 
 WORKDIR /usr/src
 
-COPY [".", "/usr/src/"]
+COPY ["pom.xml", "/usr/src/"]
 
-RUN mvn clean package
+RUN mvn dependency:go-offline
+
+COPY [".", "/usr/src/"]
 
 CMD mvn spring-boot:run
