@@ -39,9 +39,8 @@ class Heladeria {
 	@CollectionTable(name="Heladeria_Gustos", joinColumns=@JoinColumn(name="heladeria_id"))
 	@Column(name="dificultad")
 	@MapKeyColumn(name="gusto")
-	Map<String, Integer> gustos
-
-	// el mapa se compone de gusto, dificultad
+	Map<String, Integer> gustos // el mapa se compone de gusto, dificultad
+	
 	new() {
 		gustos = newHashMap
 	}
@@ -64,7 +63,7 @@ class Heladeria {
 	}
 
 	def agregarGusto(String gusto, Integer dificultad) {
-		var gustoNormalizado = Normalizer.normalize(gusto.toLowerCase, Normalizer.Form.NFD).replaceAll("\\p{M}", "");
+		var gustoNormalizado = Normalizer.normalize(gusto.toLowerCase, Normalizer.Form.NFD).replaceAll("\\p{M}", "")
 		gustos.put(gustoNormalizado, dificultad)
 	}
 

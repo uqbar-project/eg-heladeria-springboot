@@ -24,7 +24,7 @@ class DuenioService {
 	def findById(Long duenioId) {
 		repoDuenios.findById(duenioId).orElseThrow([
 			throw new NotFoundException("No se encontró el duenio indicado: " + duenioId.toString)
-		]);
+		])
 	}
 	
 	@Transactional

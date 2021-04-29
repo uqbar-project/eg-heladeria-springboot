@@ -45,7 +45,7 @@ class HeladeriaControllerTest {
 	}
 	
 	@Test
-	@DisplayName("Si al buscar heladerías el criterio no matchea, devuelve lista vacía")
+	@DisplayName("si al buscar heladerías el criterio no matchea, devuelve lista vacía")
 	def void buscarHeladeriasSinMatch() {
 		mockMvc
 		.perform(MockMvcRequestBuilders.get("/heladerias/buscar/{nombre}", "criterioinexistente"))
@@ -107,7 +107,7 @@ class HeladeriaControllerTest {
 	}
 	
 	@Test
-	@DisplayName("Intentar crear un dueño con nombre vacío, devuelve 400")
+	@DisplayName("intentar crear un dueño con nombre vacío, devuelve 400")
 	def void crearDuenioNombreVacioError() {
 		mockMvc
 		.perform(
@@ -119,7 +119,7 @@ class HeladeriaControllerTest {
 	}
 	
 	@Test
-	@DisplayName("Intentar crear un dueño con payload invalido, devuelve 400")
+	@DisplayName("intentar crear un dueño con payload invalido, devuelve 400")
 	def void crearDuenioInvalidoError() {
 		mockMvc
 		.perform(
@@ -146,7 +146,7 @@ class HeladeriaControllerTest {
 	}
 	
 	@Test
-	@DisplayName("Intentar actualizar una heladería con nombre vacío, devuelve 400")
+	@DisplayName("intentar actualizar una heladería con nombre vacío, devuelve 400")
 	def void actualizarHeladeriaNombreVacioError() {
 		mockMvc
 		.perform(
@@ -158,7 +158,7 @@ class HeladeriaControllerTest {
 	}
 	
 	@Test
-	@DisplayName("Intentar actualizar una heladería con un duenio inexistente, devuelve 404")
+	@DisplayName("intentar actualizar una heladería con un duenio inexistente, devuelve 404")
 	def void actualizarHeladeriaDuenioInexistenteError() {
 		mockMvc
 		.perform(
@@ -197,7 +197,7 @@ class HeladeriaControllerTest {
 	}
 	
 	@Test
-	@DisplayName("Intentar agregar un gusto con más de 10 de dificultad, devuelve 400")
+	@DisplayName("intentar agregar un gusto con más de 10 de dificultad, devuelve 400")
 	def void agregarGustosFueraDeLimiteError() {
 		mockMvc
 		.perform(
@@ -209,7 +209,7 @@ class HeladeriaControllerTest {
 	}
 	
 	@Test
-	@DisplayName("Intentar agregar un gusto sin nombre, devuelve 400")
+	@DisplayName("intentar agregar un gusto sin nombre, devuelve 400")
 	def void agregarGustosSinNombreError() {
 		mockMvc
 		.perform(
@@ -236,7 +236,7 @@ class HeladeriaControllerTest {
 	}
 	
 	@Test
-	@DisplayName("Intentar eliminar gustos inexistentes de una heladería, devuelve 400")
+	@DisplayName("intentar eliminar gustos inexistentes de una heladería, devuelve 400")
 	def void eliminarGustosInexistentesError() {
 		mockMvc
 		.perform(
@@ -248,7 +248,7 @@ class HeladeriaControllerTest {
 	}
 	
 	@Test
-	@DisplayName("Intentar eliminar el último gusto de una heladería, devuelve 400")
+	@DisplayName("intentar eliminar el último gusto de una heladería, devuelve 400")
 	def void eliminarUltimoGustoError() {
 		mockMvc
 		.perform(

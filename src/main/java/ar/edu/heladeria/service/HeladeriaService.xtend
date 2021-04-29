@@ -26,7 +26,7 @@ class HeladeriaService {
 	def findById(Long heladeriaId) {
 		repoHeladeria.findById(heladeriaId).orElseThrow([
 			throw new NotFoundException("No se encontró la heladería indicada: " + heladeriaId.toString)
-		]);
+		])
 	}
 
 	def validarYGuardar(Heladeria heladeria) {
