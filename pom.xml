@@ -14,7 +14,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>eg-heladeria-springboot</name>
-	<description>TP Recetas - modificado para Algo3</description>
+	<description>Heladerías - PHM - Ejemplo en Spring Boot y MySQL</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
