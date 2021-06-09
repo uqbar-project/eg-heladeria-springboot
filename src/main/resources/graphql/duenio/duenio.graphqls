@@ -1,0 +1,10 @@
+type Duenio {
+	id: ID!
+	nombreCompleto: String!
+	email: String
+}
+
+input DuenioInput {
+  nombreCompleto: String!
+  email: String
+}

@@ -1,0 +1,6 @@
+type Mutation {
+  actualizarHeladeria(heladeria: ActualizarHeladeriaInput!): Heladeria!
+  crearDuenio(duenio: DuenioInput!): Duenio!
+  agregarGustos(heladeriaId: ID!, gustos: [AgregarGustoInput]!): Heladeria!
+  eliminarGustos(heladeriaId: ID!, gustos: [EliminarGustoInput]!): Heladeria!
+}

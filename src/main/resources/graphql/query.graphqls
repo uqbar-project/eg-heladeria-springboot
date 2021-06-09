@@ -1,0 +1,10 @@
+type Query {
+  todasLasHeladerias: [Heladeria]!
+  #Obtener todas las heladerías
+  buscarHeladerias(nombre: String): [Heladeria]
+  #Buscar heladerías por nombre
+  heladeria(id: ID): Heladeria!
+  #Obtener una heladería por id
+  duenios: [Duenio]!
+  #Obtener todos los dueños
+}

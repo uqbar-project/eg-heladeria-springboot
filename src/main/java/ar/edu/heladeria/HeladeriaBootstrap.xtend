@@ -1,6 +1,7 @@
 package ar.edu.heladeria
 
 import ar.edu.heladeria.domain.Duenio
+import ar.edu.heladeria.domain.Gusto
 import ar.edu.heladeria.domain.Heladeria
 import ar.edu.heladeria.domain.TipoHeladeria
 import ar.edu.heladeria.repos.RepoHeladeria
@@ -10,13 +11,13 @@ import org.springframework.stereotype.Service
 
 @Service
 class HeladeriaBootstrap implements InitializingBean {
-	
+
 	Heladeria tucan
 	Heladeria monteOlivia
 	Heladeria frigor
 	@Autowired
 	RepoHeladeria repoHeladeria
-	
+
 	def getTucan() {
 		tucan
 	}
@@ -27,7 +28,8 @@ class HeladeriaBootstrap implements InitializingBean {
 				nombreCompleto = "Carlos Martinelli"
 			]
 			nombre = "Tucán"
-			gustos = #{"frutilla" -> 3, "maracuya" -> 2, "dulce de leche" -> 4, "pistacchio" -> 6}
+			gustos = #[new Gusto("frutilla", 3), new Gusto("maracuya", 2), new Gusto("dulce de leche", 4),
+				new Gusto("pistacchio", 6)].toSet
 			tipoHeladeria = TipoHeladeria.ECONOMICA
 		]
 
@@ -36,8 +38,8 @@ class HeladeriaBootstrap implements InitializingBean {
 				nombreCompleto = "Olivia Heladette"
 			]
 			nombre = "Monte Olivia"
-			gustos = #{"chocolate amargo" -> 8, "dulce de leche" -> 3, "mousse de limón" -> 5, "crema tramontana" -> 9,
-				"vainilla" -> 1}
+			gustos = #[new Gusto("chocolate amargo", 8), new Gusto("dulce de leche", 3),
+				new Gusto("mousse de limón", 5), new Gusto("crema tramontana", 9), new Gusto("vainilla", 1)].toSet
 			tipoHeladeria = TipoHeladeria.ARTESANAL
 		]
 
@@ -46,7 +48,7 @@ class HeladeriaBootstrap implements InitializingBean {
 				nombreCompleto = "Manuela Fritzler y Carlos Gorriti"
 			]
 			nombre = "Frigor"
-			gustos = #{"crema americana" -> 2}
+			gustos = #[new Gusto("crema americana", 2)].toSet
 			tipoHeladeria = TipoHeladeria.INDUSTRIAL
 		]
 

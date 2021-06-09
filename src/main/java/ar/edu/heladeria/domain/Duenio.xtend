@@ -1,6 +1,6 @@
 package ar.edu.heladeria.domain
 
-import ar.edu.heladeria.service.UserException
+import ar.edu.heladeria.exceptions.UserException
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
@@ -17,6 +17,9 @@ class Duenio {
 
 	@Column(length=150)
 	String nombreCompleto
+	
+	@Column(length=150)
+	String email
 
 	def validar() {
 		if (nombreCompleto === null || nombreCompleto.trim.empty) {

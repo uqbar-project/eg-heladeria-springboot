@@ -1,20 +1,39 @@
 spring:
-    datasource:
-        url: jdbc:mysql://localhost/heladeria
-        username: root
-        password: 1234
-        driver-class-name: com.mysql.cj.jdbc.Driver
-    jpa:
-        open-in-view: false
-        show-sql: true
-        hibernate:
-          ddl-auto: create-drop
-        properties:
-            hibernate:
-                format_sql: true
+   datasource:
+      url: jdbc:mysql://localhost/heladeria
+      username: root
+      password: root
+      driver-class-name: com.mysql.cj.jdbc.Driver
+   jpa:
+      open-in-view: false
+      show-sql: true
+      hibernate:
+         ddl-auto: create-drop
+      properties:
+         hibernate:
+            format_sql: true
 server:
-    servlet.encoding.charset: UTF-8
-    servlet.encoding.force: true
-    error:
+   servlet.encoding.charset: UTF-8
+   servlet.encoding.force: true
+   error:
       include-stacktrace: on-trace-param
       include-exception: false
+graphql:
+   tools:
+#      schema-location-pattern: "**/*.graphqls"
+      # Enable or disable the introspection query. Disabling it puts your server in contravention of the GraphQL
+      # specification and expectations of most clients, so use this option with caution
+#      introspection-enabled: true
+   servlet:  
+      maxQueryDepth: 25
+      exception-handlers-enabled: true
+#      tracing-enabled: true
+   playground: 
+      pageTitle: Heladerias
+#   graphiql:
+#      enabled: true
+#      enabled: false
+#   altair:
+#      enabled: true
+#   voyager:
+#      enabled: true
