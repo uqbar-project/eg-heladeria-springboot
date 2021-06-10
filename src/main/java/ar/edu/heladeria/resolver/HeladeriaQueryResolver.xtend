@@ -10,8 +10,6 @@ import java.util.List
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
-import static ar.edu.heladeria.resolver.EntityGraphHelpers.*
-
 @Component
 class HeladeriaQueryResolver implements GraphQLQueryResolver {
 
@@ -22,15 +20,15 @@ class HeladeriaQueryResolver implements GraphQLQueryResolver {
 	DuenioService duenioService
 
 	def List<Heladeria> buscarHeladerias(String nombre, DataFetchingEnvironment enviroment) {
-		return heladeriaService.findByNombre(nombre, fromSelectionSet(enviroment.selectionSet))
+		return heladeriaService.findByNombre(nombre, enviroment.selectionSet)
 	}
 
 	def List<Heladeria> todasLasHeladerias(DataFetchingEnvironment enviroment) {
-		return heladeriaService.findAll(fromSelectionSet(enviroment.selectionSet))
+		return heladeriaService.findAll(enviroment.selectionSet)
 	}
 
 	def Heladeria heladeria(Long id, DataFetchingEnvironment enviroment) {
-		return heladeriaService.findById(id, fromSelectionSet(enviroment.selectionSet))
+		return heladeriaService.findById(id, enviroment.selectionSet)
 	}
 
 	def List<Duenio> duenios() {

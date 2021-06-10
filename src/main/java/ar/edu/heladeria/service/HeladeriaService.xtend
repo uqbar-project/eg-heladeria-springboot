@@ -5,8 +5,11 @@ import ar.edu.heladeria.domain.Heladeria
 import ar.edu.heladeria.exceptions.NotFoundException
 import ar.edu.heladeria.input.ActualizarHeladeriaInput
 import ar.edu.heladeria.repos.RepoHeladeria
-import ar.edu.heladeria.resolver.EntityGraphHelpers
 import com.cosium.spring.data.jpa.entity.graph.domain.EntityGraph
+import com.cosium.spring.data.jpa.entity.graph.domain.EntityGraphUtils
+import com.cosium.spring.data.jpa.entity.graph.domain.EntityGraphs
+import graphql.schema.DataFetchingFieldSelectionSet
+import java.util.List
 import java.util.Set
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -20,11 +23,15 @@ class HeladeriaService {
 	@Autowired
 	DuenioService duenioService
 
-	def findAll(EntityGraph entityGraph) {
+	static final List<String> RELACIONES = #["duenio", "gustos"]
+
+	def findAll(DataFetchingFieldSelectionSet atributosSeleccionados) {
+		val entityGraph = atributosSeleccionados.entityGraph
 		repoHeladeria.findAll(entityGraph).toList
 	}
 
-	def findByNombre(String nombre, EntityGraph entityGraph) {
+	def findByNombre(String nombre, DataFetchingFieldSelectionSet atributosSeleccionados) {
+		val entityGraph = atributosSeleccionados.entityGraph
 		repoHeladeria.findByNombreContaining(nombre, entityGraph)
 	}
 
@@ -34,8 +41,14 @@ class HeladeriaService {
 		])
 	}
 
+	def findById(Long heladeriaId, DataFetchingFieldSelectionSet atributosSeleccionados) {
+		val entityGraph = atributosSeleccionados.entityGraph
+		findById(heladeriaId, entityGraph)
+	}
+
 	def findCompletaById(Long heladeriaId) {
-		findById(heladeriaId, EntityGraphHelpers.fromAttributePaths(#["duenio", "gustos"]))
+		val entityGraph = EntityGraphUtils.fromAttributePaths(RELACIONES)
+		findById(heladeriaId, entityGraph)
 	}
 
 	def validarYGuardar(Heladeria heladeria) {
@@ -63,6 +76,12 @@ class HeladeriaService {
 		val Heladeria heladeria = findCompletaById(heladeriaId)
 		gustos.forEach[gusto|heladeria.eliminarGusto(gusto)]
 		validarYGuardar(heladeria)
+	}
+
+	def getEntityGraph(DataFetchingFieldSelectionSet atributosSeleccionados) {
+		val relaciones = RELACIONES.filter[relacion|atributosSeleccionados.contains(relacion)].toList
+		val entityGraph = relaciones.empty ? EntityGraphs.empty : EntityGraphUtils.fromAttributePaths(relaciones)
+		return entityGraph
 	}
 
 }
