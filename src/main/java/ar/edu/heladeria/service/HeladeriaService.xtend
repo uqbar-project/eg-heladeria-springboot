@@ -5,6 +5,7 @@ import ar.edu.heladeria.domain.Heladeria
 import ar.edu.heladeria.exceptions.NotFoundException
 import ar.edu.heladeria.input.ActualizarHeladeriaInput
 import ar.edu.heladeria.repos.RepoHeladeria
+import ar.edu.heladeria.resolver.EntityGraphHelpers
 import com.cosium.spring.data.jpa.entity.graph.domain.EntityGraph
 import java.util.Set
 import org.springframework.beans.factory.annotation.Autowired
@@ -33,29 +34,33 @@ class HeladeriaService {
 		])
 	}
 
+	def findCompletaById(Long heladeriaId) {
+		findById(heladeriaId, EntityGraphHelpers.fromAttributePaths(#["duenio", "gustos"]))
+	}
+
 	def validarYGuardar(Heladeria heladeria) {
 		heladeria.validar
 		repoHeladeria.save(heladeria)
 	}
 
 	@Transactional
-	def actualizar(ActualizarHeladeriaInput heladeria, EntityGraph entityGraph) {
-		val Heladeria heladeriaFound = findById(heladeria.id, entityGraph)
+	def actualizar(ActualizarHeladeriaInput heladeria) {
+		val Heladeria heladeriaFound = findCompletaById(heladeria.id)
 		heladeria.duenio = heladeria.duenio !== null ? duenioService.findById(heladeria.duenio.id) : heladeria.duenio
 		heladeriaFound.merge(heladeria)
 		validarYGuardar(heladeriaFound)
 	}
 
 	@Transactional
-	def agregarGustos(Long heladeriaId, Set<Gusto> gustos, EntityGraph entityGraph) {
-		val Heladeria heladeria = findById(heladeriaId, entityGraph)
+	def agregarGustos(Long heladeriaId, Set<Gusto> gustos) {
+		val Heladeria heladeria = findCompletaById(heladeriaId)
 		heladeria.agregarGustos(gustos)
 		validarYGuardar(heladeria)
 	}
 
 	@Transactional
-	def eliminarGustos(Long heladeriaId, Set<Gusto> gustos, EntityGraph entityGraph) {
-		val Heladeria heladeria = findById(heladeriaId, entityGraph)
+	def eliminarGustos(Long heladeriaId, Set<Gusto> gustos) {
+		val Heladeria heladeria = findCompletaById(heladeriaId)
 		gustos.forEach[gusto|heladeria.eliminarGusto(gusto)]
 		validarYGuardar(heladeria)
 	}
