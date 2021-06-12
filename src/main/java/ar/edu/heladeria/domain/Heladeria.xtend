@@ -1,8 +1,7 @@
 package ar.edu.heladeria.domain
 
 import ar.edu.heladeria.exceptions.UserException
-import ar.edu.heladeria.input.ActualizarHeladeriaInput
-import java.util.Set
+import java.util.List
 import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -16,6 +15,7 @@ import javax.persistence.ManyToOne
 import javax.persistence.OneToMany
 import javax.persistence.Transient
 import org.eclipse.xtend.lib.annotations.Accessors
+import ar.edu.heladeria.input.HeladeriaActualizarInput
 
 @Accessors
 @Entity
@@ -39,10 +39,10 @@ class Heladeria {
 
 	@JoinColumn(name="heladeria_id")
 	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	Set<Gusto> gustos
+	List<Gusto> gustos
 
 	new() {
-		gustos = newHashSet
+		gustos = newArrayList
 	}
 
 	def void validar() {
@@ -55,12 +55,12 @@ class Heladeria {
 		validarGustos(gustos)
 	}
 
-	def agregarGustos(Set<Gusto> gustosNuevos) {
+	def agregarGustos(List<Gusto> gustosNuevos) {
 		validarGustos(gustosNuevos)
 		gustos.addAll(gustosNuevos)
 	}
 
-	def validarGustos(Set<Gusto> gustos) {
+	def validarGustos(List<Gusto> gustos) {
 		if (gustos.isEmpty) {
 			throw new UserException("Debe seleccionar al menos un gusto")
 		}
@@ -69,12 +69,12 @@ class Heladeria {
 
 	def eliminarGusto(Gusto gusto) {
 		if (!gustos.contains(gusto)) {
-			throw new UserException("El gusto a eliminar no existe")
+			throw new UserException("El gusto a eliminar '" + gusto.id + "' no existe")
 		}
 		gustos.remove(gusto)
 	}
 
-	def merge(ActualizarHeladeriaInput heladeriaInput) {
+	def merge(HeladeriaActualizarInput heladeriaInput) {
 		nombre = heladeriaInput.nombre ?: nombre
 		tipoHeladeria = heladeriaInput.tipoHeladeria ?: tipoHeladeria
 		duenio = heladeriaInput.duenio ?: duenio

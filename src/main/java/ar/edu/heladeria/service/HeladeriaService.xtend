@@ -1,16 +1,16 @@
 package ar.edu.heladeria.service
 
-import ar.edu.heladeria.domain.Gusto
 import ar.edu.heladeria.domain.Heladeria
 import ar.edu.heladeria.exceptions.NotFoundException
-import ar.edu.heladeria.input.ActualizarHeladeriaInput
+import ar.edu.heladeria.input.GustoAgregarInput
+import ar.edu.heladeria.input.GustoEliminarInput
+import ar.edu.heladeria.input.HeladeriaActualizarInput
 import ar.edu.heladeria.repos.RepoHeladeria
 import com.cosium.spring.data.jpa.entity.graph.domain.EntityGraph
 import com.cosium.spring.data.jpa.entity.graph.domain.EntityGraphUtils
 import com.cosium.spring.data.jpa.entity.graph.domain.EntityGraphs
 import graphql.schema.DataFetchingFieldSelectionSet
 import java.util.List
-import java.util.Set
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -57,7 +57,7 @@ class HeladeriaService {
 	}
 
 	@Transactional
-	def actualizar(ActualizarHeladeriaInput heladeria) {
+	def actualizar(HeladeriaActualizarInput heladeria) {
 		val Heladeria heladeriaFound = findCompletaById(heladeria.id)
 		heladeria.duenio = heladeria.duenio !== null ? duenioService.findById(heladeria.duenio.id) : heladeria.duenio
 		heladeriaFound.merge(heladeria)
@@ -65,16 +65,16 @@ class HeladeriaService {
 	}
 
 	@Transactional
-	def agregarGustos(Long heladeriaId, Set<Gusto> gustos) {
+	def agregarGustos(Long heladeriaId, List<GustoAgregarInput> gustos) {
 		val Heladeria heladeria = findCompletaById(heladeriaId)
-		heladeria.agregarGustos(gustos)
+		heladeria.agregarGustos(gustos.map[toGusto].toList)
 		validarYGuardar(heladeria)
 	}
 
 	@Transactional
-	def eliminarGustos(Long heladeriaId, Set<Gusto> gustos) {
+	def eliminarGustos(Long heladeriaId, List<GustoEliminarInput> gustos) {
 		val Heladeria heladeria = findCompletaById(heladeriaId)
-		gustos.forEach[gusto|heladeria.eliminarGusto(gusto)]
+		gustos.forEach[gustoAEliminar|heladeria.eliminarGusto(gustoAEliminar.toGusto)]
 		validarYGuardar(heladeria)
 	}
 

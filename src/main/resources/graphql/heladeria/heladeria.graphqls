@@ -13,7 +13,7 @@ enum TipoHeladeria {
   INDUSTRIAL
 }
 
-input ActualizarHeladeriaInput {
+input HeladeriaActualizarInput {
   id: ID!
   nombre: String
   tipoHeladeria: TipoHeladeria

@@ -29,7 +29,7 @@ class HeladeriaBootstrap implements InitializingBean {
 			]
 			nombre = "Tucán"
 			gustos = #[new Gusto("frutilla", 3), new Gusto("maracuya", 2), new Gusto("dulce de leche", 4),
-				new Gusto("pistacchio", 6)].toSet
+				new Gusto("pistacchio", 6)]
 			tipoHeladeria = TipoHeladeria.ECONOMICA
 		]
 
@@ -39,7 +39,7 @@ class HeladeriaBootstrap implements InitializingBean {
 			]
 			nombre = "Monte Olivia"
 			gustos = #[new Gusto("chocolate amargo", 8), new Gusto("dulce de leche", 3),
-				new Gusto("mousse de limón", 5), new Gusto("crema tramontana", 9), new Gusto("vainilla", 1)].toSet
+				new Gusto("mousse de limón", 5), new Gusto("crema tramontana", 9), new Gusto("vainilla", 1)]
 			tipoHeladeria = TipoHeladeria.ARTESANAL
 		]
 
@@ -48,7 +48,7 @@ class HeladeriaBootstrap implements InitializingBean {
 				nombreCompleto = "Manuela Fritzler y Carlos Gorriti"
 			]
 			nombre = "Frigor"
-			gustos = #[new Gusto("crema americana", 2)].toSet
+			gustos = #[new Gusto("crema americana", 2)]
 			tipoHeladeria = TipoHeladeria.INDUSTRIAL
 		]
 

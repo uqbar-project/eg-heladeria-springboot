@@ -1,13 +1,14 @@
 package ar.edu.heladeria.resolver
 
 import ar.edu.heladeria.domain.Duenio
-import ar.edu.heladeria.domain.Gusto
 import ar.edu.heladeria.domain.Heladeria
-import ar.edu.heladeria.input.ActualizarHeladeriaInput
+import ar.edu.heladeria.input.GustoAgregarInput
+import ar.edu.heladeria.input.GustoEliminarInput
+import ar.edu.heladeria.input.HeladeriaActualizarInput
 import ar.edu.heladeria.service.DuenioService
 import ar.edu.heladeria.service.HeladeriaService
 import graphql.kickstart.tools.GraphQLMutationResolver
-import java.util.Set
+import java.util.List
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
@@ -20,7 +21,7 @@ class HeladeriaMutationResolver implements GraphQLMutationResolver {
 	@Autowired
 	DuenioService duenioService
 
-	def Heladeria actualizarHeladeria(ActualizarHeladeriaInput heladeriaInput) {
+	def Heladeria actualizarHeladeria(HeladeriaActualizarInput heladeriaInput) {
 		return heladeriaService.actualizar(heladeriaInput)
 	}
 
@@ -28,11 +29,11 @@ class HeladeriaMutationResolver implements GraphQLMutationResolver {
 		return duenioService.validarYGuardar(duenioInput)
 	}
 
-	def agregarGustos(Long heladeriaId, Set<Gusto> gustos) {
+	def agregarGustos(Long heladeriaId, List<GustoAgregarInput> gustos) {
 		return heladeriaService.agregarGustos(heladeriaId, gustos)
 	}
 
-	def eliminarGustos(Long heladeriaId, Set<Gusto> gustos) {
+	def eliminarGustos(Long heladeriaId, List<GustoEliminarInput> gustos) {
 		return heladeriaService.eliminarGustos(heladeriaId, gustos)
 
 	}

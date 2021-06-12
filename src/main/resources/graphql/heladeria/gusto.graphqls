@@ -4,11 +4,11 @@ type Gusto {
   dificultad: Int!
 }
 
-input AgregarGustoInput {
+input GustoAgregarInput {
   nombre: String!
   dificultad: Int!
 }
 
-input EliminarGustoInput {
+input GustoEliminarInput {
   id:ID!
 }
