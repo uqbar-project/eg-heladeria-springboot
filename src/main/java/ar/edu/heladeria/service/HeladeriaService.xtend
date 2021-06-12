@@ -1,20 +1,27 @@
 package ar.edu.heladeria.service
 
-import ar.edu.heladeria.domain.Gusto
 import ar.edu.heladeria.domain.Heladeria
 import ar.edu.heladeria.exceptions.NotFoundException
-import ar.edu.heladeria.input.ActualizarHeladeriaInput
+import ar.edu.heladeria.input.GustoAgregar
+import ar.edu.heladeria.input.GustoEliminar
+import ar.edu.heladeria.input.HeladeriaActualizar
 import ar.edu.heladeria.repos.RepoHeladeria
 import com.cosium.spring.data.jpa.entity.graph.domain.EntityGraph
 import com.cosium.spring.data.jpa.entity.graph.domain.EntityGraphUtils
 import com.cosium.spring.data.jpa.entity.graph.domain.EntityGraphs
 import graphql.schema.DataFetchingFieldSelectionSet
+import io.leangen.graphql.annotations.GraphQLEnvironment
+import io.leangen.graphql.annotations.GraphQLMutation
+import io.leangen.graphql.annotations.GraphQLQuery
+import io.leangen.graphql.execution.ResolutionEnvironment
+import io.leangen.graphql.spqr.spring.annotations.GraphQLApi
 import java.util.List
-import java.util.Set
+import javax.annotation.Nonnull
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
+@GraphQLApi
 @Service
 class HeladeriaService {
 
@@ -25,25 +32,31 @@ class HeladeriaService {
 
 	static final List<String> RELACIONES = #["duenio", "gustos"]
 
-	def findAll(DataFetchingFieldSelectionSet atributosSeleccionados) {
-		val entityGraph = atributosSeleccionados.entityGraph
+	@GraphQLQuery(name="todasLasHeladerias", description="Obtener todas las heladerías")
+	@Nonnull
+	def findAll(@GraphQLEnvironment ResolutionEnvironment env) {
+		val entityGraph = env.dataFetchingEnvironment.selectionSet.entityGraph
 		repoHeladeria.findAll(entityGraph).toList
 	}
 
-	def findByNombre(String nombre, DataFetchingFieldSelectionSet atributosSeleccionados) {
-		val entityGraph = atributosSeleccionados.entityGraph
+	@GraphQLQuery(name="buscarHeladerias", description="Buscar heladerías por nombre")
+	@Nonnull
+	def findByNombre(@Nonnull String nombre, @GraphQLEnvironment ResolutionEnvironment env) {
+		val entityGraph = env.dataFetchingEnvironment.selectionSet.entityGraph
 		repoHeladeria.findByNombreContaining(nombre, entityGraph)
+	}
+
+	@GraphQLQuery(name="heladeria", description="Obtener una heladería por id")
+	@Nonnull
+	def findById(@Nonnull Long heladeriaId, @GraphQLEnvironment ResolutionEnvironment env) {
+		val entityGraph = env.dataFetchingEnvironment.selectionSet.entityGraph
+		findById(heladeriaId, entityGraph)
 	}
 
 	def findById(Long heladeriaId, EntityGraph entityGraph) {
 		repoHeladeria.findById(heladeriaId, entityGraph).orElseThrow([
 			throw new NotFoundException("No se encontró la heladería indicada: " + heladeriaId.toString)
 		])
-	}
-
-	def findById(Long heladeriaId, DataFetchingFieldSelectionSet atributosSeleccionados) {
-		val entityGraph = atributosSeleccionados.entityGraph
-		findById(heladeriaId, entityGraph)
 	}
 
 	def findCompletaById(Long heladeriaId) {
@@ -56,25 +69,31 @@ class HeladeriaService {
 		repoHeladeria.save(heladeria)
 	}
 
+	@GraphQLMutation(name="actualizarHeladeria", description="Actualizar uno o más atributos de una heladeria ")
+	@Nonnull
 	@Transactional
-	def actualizar(ActualizarHeladeriaInput heladeria) {
+	def actualizar(@Nonnull HeladeriaActualizar heladeria) {
 		val Heladeria heladeriaFound = findCompletaById(heladeria.id)
 		heladeria.duenio = heladeria.duenio !== null ? duenioService.findById(heladeria.duenio.id) : heladeria.duenio
 		heladeriaFound.merge(heladeria)
 		validarYGuardar(heladeriaFound)
 	}
 
+	@GraphQLMutation(description="Agregar uno o más gustos a una heladería")
 	@Transactional
-	def agregarGustos(Long heladeriaId, Set<Gusto> gustos) {
+	@Nonnull
+	def agregarGustos(@Nonnull Long heladeriaId, @Nonnull List<GustoAgregar> gustos) {
 		val Heladeria heladeria = findCompletaById(heladeriaId)
-		heladeria.agregarGustos(gustos)
+		heladeria.agregarGustos(gustos.map[toGusto].toList)
 		validarYGuardar(heladeria)
 	}
 
+	@GraphQLMutation(description="Eliminar uno o más gustos de una heladería")
 	@Transactional
-	def eliminarGustos(Long heladeriaId, Set<Gusto> gustos) {
+	@Nonnull
+	def eliminarGustos(@Nonnull Long heladeriaId, @Nonnull List<GustoEliminar> gustos) {
 		val Heladeria heladeria = findCompletaById(heladeriaId)
-		gustos.forEach[gusto|heladeria.eliminarGusto(gusto)]
+		gustos.forEach[gustoAEliminar|heladeria.eliminarGusto(gustoAEliminar.toGusto)]
 		validarYGuardar(heladeria)
 	}
 

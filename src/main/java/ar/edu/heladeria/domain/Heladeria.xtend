@@ -1,8 +1,9 @@
 package ar.edu.heladeria.domain
 
 import ar.edu.heladeria.exceptions.UserException
-import ar.edu.heladeria.input.ActualizarHeladeriaInput
-import java.util.Set
+import ar.edu.heladeria.input.HeladeriaActualizar
+import java.util.List
+import javax.annotation.Nonnull
 import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -23,15 +24,18 @@ class Heladeria {
 
 	@Id
 	@GeneratedValue
+	@Nonnull
 	Long id
 
 	@Column(length=150)
+	@Nonnull
 	String nombre
 
 	@Transient
 	Heladeria heladeria
 
 	@Enumerated(EnumType.ORDINAL) // o EnumType.STRING
+	@Nonnull
 	TipoHeladeria tipoHeladeria
 
 	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
@@ -39,10 +43,10 @@ class Heladeria {
 
 	@JoinColumn(name="heladeria_id")
 	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	Set<Gusto> gustos
+	List<Gusto> gustos
 
 	new() {
-		gustos = newHashSet
+		gustos = newArrayList
 	}
 
 	def void validar() {
@@ -55,26 +59,26 @@ class Heladeria {
 		validarGustos(gustos)
 	}
 
-	def agregarGustos(Set<Gusto> gustosNuevos) {
+	def agregarGustos(List<Gusto> gustosNuevos) {
 		validarGustos(gustosNuevos)
 		gustos.addAll(gustosNuevos)
 	}
 
-	def validarGustos(Set<Gusto> gustos) {
+	def validarGustos(List<Gusto> gustos) {
 		if (gustos.isEmpty) {
 			throw new UserException("Debe seleccionar al menos un gusto")
 		}
 		gustos.forEach[validar]
 	}
 
-	def eliminarGusto(Gusto gusto) {
-		if (!gustos.contains(gusto)) {
-			throw new UserException("El gusto a eliminar no existe")
+	def eliminarGusto(Gusto gustoAEliminar) {
+		if (!gustos.contains(gustoAEliminar)) {
+			throw new UserException("El gusto a eliminar '" + gustoAEliminar.id + "' no existe")
 		}
-		gustos.remove(gusto)
+		gustos.remove(gustoAEliminar)
 	}
 
-	def merge(ActualizarHeladeriaInput heladeriaInput) {
+	def merge(HeladeriaActualizar heladeriaInput) {
 		nombre = heladeriaInput.nombre ?: nombre
 		tipoHeladeria = heladeriaInput.tipoHeladeria ?: tipoHeladeria
 		duenio = heladeriaInput.duenio ?: duenio

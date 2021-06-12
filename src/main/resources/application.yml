@@ -12,28 +12,12 @@ spring:
       properties:
          hibernate:
             format_sql: true
+
 server:
    servlet.encoding.charset: UTF-8
    servlet.encoding.force: true
-   error:
-      include-stacktrace: on-trace-param
-      include-exception: false
+
 graphql:
-   tools:
-#      schema-location-pattern: "**/*.graphqls"
-      # Enable or disable the introspection query. Disabling it puts your server in contravention of the GraphQL
-      # specification and expectations of most clients, so use this option with caution
-#      introspection-enabled: true
-   servlet:  
-      maxQueryDepth: 25
-      exception-handlers-enabled: true
-#      tracing-enabled: true
-   playground: 
-      pageTitle: Heladerias
-#   graphiql:
-#      enabled: true
-#      enabled: false
-#   altair:
-#      enabled: true
-#   voyager:
-#      enabled: true
+   spqr:
+      gui:
+         enabled: true
