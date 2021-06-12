@@ -4,7 +4,7 @@ type Heladeria {
   duenio: Duenio
   heladeria: Heladeria
   tipoHeladeria: TipoHeladeria!
-  gustos: [Gusto]!
+  gustos: [Gusto]
 }
 
 enum TipoHeladeria {
