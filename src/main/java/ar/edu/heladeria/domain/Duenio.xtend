@@ -6,7 +6,6 @@ import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import org.eclipse.xtend.lib.annotations.Accessors
-import javax.annotation.Nonnull
 
 @Accessors
 @Entity
@@ -17,7 +16,6 @@ class Duenio {
 	Long id
 
 	@Column(length=150)
-	@Nonnull
 	String nombreCompleto
 
 	@Column(length=150)

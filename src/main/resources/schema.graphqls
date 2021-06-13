@@ -1,0 +1,69 @@
+type Query {
+  todasLasHeladerias: [Heladeria]!
+  #Obtener todas las heladerías
+  buscarHeladerias(nombre: String!): [Heladeria]!
+  #Buscar heladerías por nombre
+  heladeria(id: ID!): Heladeria!
+  #Obtener una heladería por id
+  duenios: [Duenio]!
+  #Obtener todos los dueños
+}
+
+type Mutation {
+  actualizarHeladeria(heladeria: HeladeriaActualizarInput!): Heladeria!
+  #Actualizar uno o más atributos de una heladeria
+  crearDuenio(duenio: DuenioInput!): Duenio!
+  #Crear un nuevo dueño
+  agregarGustos(heladeriaId: ID!, gustos: [GustoAgregarInput!]!): Heladeria!
+  #Agregar uno o más gustos a una heladería
+  eliminarGustos(heladeriaId: ID!, gustos: [GustoEliminarInput!]!): Heladeria!
+  #Eliminar uno o más gustos de una heladería
+}
+
+type Heladeria {
+  id: ID!
+  nombre: String!
+  duenio: Duenio
+  heladeria: Heladeria
+  tipoHeladeria: TipoHeladeria!
+  gustos: [Gusto]
+}
+
+type Duenio {
+  id: ID!
+  nombreCompleto: String!
+  email: String
+}
+
+type Gusto {
+  id: ID!
+  nombre: String!
+  dificultad: Int!
+}
+
+input GustoAgregarInput {
+  nombre: String!
+  dificultad: Int!
+}
+
+input GustoEliminarInput {
+  id: ID!
+}
+
+input DuenioInput {
+  nombreCompleto: String!
+  email: String
+}
+
+enum TipoHeladeria {
+  ECONOMICA
+  ARTESANAL
+  INDUSTRIAL
+}
+
+input HeladeriaActualizarInput {
+  id: ID!
+  nombre: String
+  tipoHeladeria: TipoHeladeria
+  duenio: DuenioInput
+}

@@ -3,7 +3,6 @@ package ar.edu.heladeria.domain
 import ar.edu.heladeria.exceptions.UserException
 import ar.edu.heladeria.input.HeladeriaActualizar
 import java.util.List
-import javax.annotation.Nonnull
 import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -24,18 +23,15 @@ class Heladeria {
 
 	@Id
 	@GeneratedValue
-	@Nonnull
 	Long id
 
 	@Column(length=150)
-	@Nonnull
 	String nombre
 
 	@Transient
 	Heladeria heladeria
 
 	@Enumerated(EnumType.ORDINAL) // o EnumType.STRING
-	@Nonnull
 	TipoHeladeria tipoHeladeria
 
 	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
