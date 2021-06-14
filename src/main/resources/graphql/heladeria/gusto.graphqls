@@ -10,5 +10,5 @@ input GustoAgregarInput {
 }
 
 input GustoEliminarInput {
-  id:ID!
+  id: ID!
 }

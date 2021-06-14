@@ -1,7 +1,7 @@
 type Duenio {
-	id: ID!
-	nombreCompleto: String!
-	email: String
+  id: ID!
+  nombreCompleto: String!
+  email: String
 }
 
 input DuenioInput {
